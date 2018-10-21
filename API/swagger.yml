@@ -1,0 +1,75 @@
+swagger: "2.0"
+info:
+  description: Sharks Swagger Documentation
+  version: "1.0.0"
+  title: Swagger REST Article
+consumes:
+  - "application/json"
+produces:
+  - "application/json"
+
+basePath: "/api"
+
+# Paths supported by the server application
+paths:
+  /sharks:
+    get:
+      operationId: "sharks.read"
+      tags:
+        - Sharks
+      summary: "The Sharks data structure supported by the server application"
+      description: "Read the list of Sharks"
+      responses:
+        200:
+          description: "Successful read shark list operation"
+          schema:
+            type: "array"
+            items:
+              properties:
+                Id:
+                  type: "integer"
+                Name:
+                  type: "string"
+                Lat:
+                  type: "string"
+                Lng:
+                  type: "string"
+                Species:
+                  type: "string"
+                Speciesid:
+                  type: "integer"
+                TagDate:
+                  type: "string"
+                LatestPing:
+                  type: "integer"
+                Age:
+                  type: "integer"
+                Length:
+                  type: "integer"
+                FriendlyName:
+                  type: "string"
+                Image:
+                  type: "string"
+    post:
+      operationId: sharks.create
+      tags:
+        - Sharks
+      summary: Create a shark and add it to the shark list
+      description: Create a new shark in the shark list
+      parameters:
+        - name: shark
+          in: body
+          description: Shark to create
+          required: True
+          schema:
+            type: object
+            properties:
+              fname:
+                type: string
+                description: First name of shark to create
+              lname:
+                type: string
+                description: Last name of shark to create
+      responses:
+        201:
+          description: Successfully created shark in list
