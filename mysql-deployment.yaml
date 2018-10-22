@@ -1,28 +1,17 @@
-apiVersion: v1
-kind: Service
-metadata:
-  name: mysql
-spec:
-  ports:
-  - port: 3306
-  selector:
-    app: mysql
-  clusterIP: None
----
 apiVersion: apps/v1beta2 # for versions before 1.9.0 use apps/v1beta2
 kind: Deployment
 metadata:
-  name: mysql
+  name: mysql-db
 spec:
   selector:
     matchLabels:
-      app: mysql
+      app: mysql-db
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: mysql
+        app: mysql-db
     spec:
       containers:
       - image: rolnickw/sharksdb:first
