@@ -1,3 +1,74 @@
+apiVersion: v1
+kind: Service
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: mysql-pv-volume
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pv-claim
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+---
+metadata:
+  name: mysql
+spec:
+  type: NodePort
+  ports:
+  - port: 3306
+  selector:
+    app: mysql
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: myapi
+spec:
+  type: NodePort
+  ports:
+  - port: 5000
+  selector:
+    app: myapi
+---
+apiVersion: apps/v1beta2 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: myapi
+spec:
+  selector:
+    matchLabels:
+      app: myapi
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: myapi
+    spec:
+      containers:
+      - image: rolnickw/sharksapi:latest
+        name: myapi
+        ports:
+        - containerPort: 5000
+          name: myapi
+---
 apiVersion: apps/v1beta2 # for versions before 1.9.0 use apps/v1beta2
 kind: Deployment
 metadata:
