@@ -1,0 +1,103 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: mysql-pv-volume
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pv-claim
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-db
+spec:
+  type: NodePort
+  ports:
+  - port: 3306
+  selector:
+    app: mysql-db
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: myapi
+spec:
+  type: NodePort
+  ports:
+  - port: 5000
+  selector:
+    app: myapi
+---
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: myapi
+spec:
+  selector:
+    matchLabels:
+      app: myapi
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: myapi
+    spec:
+      containers:
+      - image: rolnickw/sharksapi:latest
+        name: myapi
+        ports:
+        - containerPort: 5000
+          name: myapi
+---
+apiVersion: apps/v1beta2 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: mysql-db
+spec:
+  selector:
+    matchLabels:
+      app: mysql-db
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mysql-db
+    spec:
+      containers:
+      - image: rolnickw/sharksdb:first
+        name: mysql-db
+        env:
+          # Use secret in real usage
+        - name: MYSQL_ROOT_PASSWORD
+          value: sharksAreCool!!
+        ports:
+        - containerPort: 3306
+          name: mysql-db
+        volumeMounts:
+        - name: mysql-persistent-storage
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: mysql-persistent-storage
+        persistentVolumeClaim:
+          claimName: mysql-pv-claim
