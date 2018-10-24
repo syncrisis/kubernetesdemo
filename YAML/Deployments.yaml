@@ -16,6 +16,8 @@ spec:
       containers:
       - image: rolnickw/sharksdb:first
         name: mysql-db
+        args:
+        - "--ignore-db-dir=lost+found"
         env:
           # Use secret in real usage
         - name: MYSQL_ROOT_PASSWORD
