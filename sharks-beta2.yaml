@@ -85,7 +85,7 @@ spec:
         app: mysql-db
     spec:
       containers:
-      - image: rolnickw/sharksdb:first
+      - image: rolnickw/sharksdb:mariadb
         name: mysql-db
         env:
           # Use secret in real usage
