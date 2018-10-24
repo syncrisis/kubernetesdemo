@@ -1,0 +1,32 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: mysql-db
+spec:
+  selector:
+    matchLabels:
+      app: mysql-db
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mysql-db
+    spec:
+      containers:
+      - image: rolnickw/sharksdb:first
+        name: mysql-db
+        env:
+          # Use secret in real usage
+        - name: MYSQL_ROOT_PASSWORD
+          value: sharksAreCool!!
+        ports:
+        - containerPort: 3306
+          name: mysql-db
+        volumeMounts:
+        - name: mysql-persistent-storage
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: mysql-persistent-storage
+        persistentVolumeClaim:
+          claimName: mysql-pv-claim
