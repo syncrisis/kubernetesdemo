@@ -50,26 +50,3 @@ paths:
                   type: "string"
                 Image:
                   type: "string"
-    post:
-      operationId: sharks.create
-      tags:
-        - Sharks
-      summary: Create a shark and add it to the shark list
-      description: Create a new shark in the shark list
-      parameters:
-        - name: shark
-          in: body
-          description: Shark to create
-          required: True
-          schema:
-            type: object
-            properties:
-              fname:
-                type: string
-                description: First name of shark to create
-              lname:
-                type: string
-                description: Last name of shark to create
-      responses:
-        201:
-          description: Successfully created shark in list

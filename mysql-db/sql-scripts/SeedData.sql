@@ -25,8 +25,8 @@ null,
 19,
 null,
 20,
-'Nick the Shark',
-2, 
+'Cait the Shark',
+1,
 'http://www.greatwhiteadventures.com/uploads/6/7/7/6/67762825/published/1114x860-gift-certificate.jpeg');
 INSERT INTO `sharks`.`Shark`
 (`Id`,
@@ -47,9 +47,9 @@ null,
 19,
 null,
 30,
-'Wes the Shark',
+'Nick the Shark',
 2, 
-NULL);
+'https://uc9d249b9b5d681e25c997d82d66.previews.dropboxusercontent.com/p/thumb/AAOwp-J9c12jJXOHLmhOfMXWeZ-fve3mzGjmLgpNpzh_NTsBtXHKHX8YjmaLdj69s4zJ2rwmlLqNnUmZYYoU9WCE59bbNpxmoz14GK5EBpHAYKVz9cf0ML0VEPa1jglWD_7mSo6OisRI7fjrk8uBVUbRGr0xzXYXOuiOI0CZQUinUoNPkrrk_GpDBFMylFAnUGIsuHFhsyHEt_TBoFCArFVC31tC4db3GUBBmCkvIpNJdw/p.jpeg?size=2048x1536&size_mode=3');
 INSERT INTO `sharks`.`Ping`
 (`Id`,
 `Lat`,
@@ -67,6 +67,6 @@ INSERT INTO `sharks`.`Ping`
 `SharkId`)
 VALUES
 (2,
-39.71205,
--77.323026,
+42.6895995,
+-73.82030270000001,
 2);
